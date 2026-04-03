@@ -2367,3 +2367,31 @@ dtype: int64}]))),
                 ('normalize', TransformerWrapper(transformer=StandardScaler())),
                 ('trained_model', LinearRegression(n_jobs=-1))])
 2026-04-03 00:43:40,971:INFO:save_model() successfully completed......................................
+2026-04-03 00:47:51,514:INFO:Initializing load_model()
+2026-04-03 00:47:51,515:INFO:load_model(model_name=deployment_20260403_yan, platform=None, authentication=None, verbose=True)
+2026-04-03 00:50:44,835:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:50:44,835:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:50:44,836:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:50:44,836:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:50:50,390:INFO:Initializing load_model()
+2026-04-03 00:50:50,390:INFO:load_model(model_name=deployment_20260403_yan, platform=None, authentication=None, verbose=True)
+2026-04-03 00:50:50,441:WARNING:E:\Yan_Code\YanCode\proyecto_yan_hands_on\venv\Lib\site-packages\_distutils_hack\__init__.py:33: UserWarning: Setuptools is replacing distutils.
+  warnings.warn("Setuptools is replacing distutils.")
+
+2026-04-03 00:51:14,277:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:51:14,277:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:51:14,277:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:51:14,277:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:51:14,963:INFO:Initializing load_model()
+2026-04-03 00:51:14,963:INFO:load_model(model_name=deployment_20260403_yan, platform=None, authentication=None, verbose=True)
+2026-04-03 00:51:14,998:WARNING:E:\Yan_Code\YanCode\proyecto_yan_hands_on\venv\Lib\site-packages\_distutils_hack\__init__.py:33: UserWarning: Setuptools is replacing distutils.
+  warnings.warn("Setuptools is replacing distutils.")
+
