@@ -2395,3 +2395,53 @@ dtype: int64}]))),
 2026-04-03 00:51:14,998:WARNING:E:\Yan_Code\YanCode\proyecto_yan_hands_on\venv\Lib\site-packages\_distutils_hack\__init__.py:33: UserWarning: Setuptools is replacing distutils.
   warnings.warn("Setuptools is replacing distutils.")
 
+2026-04-03 00:54:39,150:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:54:39,150:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:54:39,150:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:54:39,150:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:54:39,817:INFO:Initializing load_model()
+2026-04-03 00:54:39,817:INFO:load_model(model_name=deployment_20260403_yan, platform=None, authentication=None, verbose=True)
+2026-04-03 00:54:39,835:WARNING:E:\Yan_Code\YanCode\proyecto_yan_hands_on\venv\Lib\site-packages\_distutils_hack\__init__.py:33: UserWarning: Setuptools is replacing distutils.
+  warnings.warn("Setuptools is replacing distutils.")
+
+2026-04-03 00:54:58,201:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:54:58,201:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:54:58,201:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:54:58,201:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2026-04-03 00:54:59,361:INFO:Initializing load_model()
+2026-04-03 00:54:59,361:INFO:load_model(model_name=deployment_20260403_yan, platform=None, authentication=None, verbose=True)
+2026-04-03 00:54:59,388:WARNING:E:\Yan_Code\YanCode\proyecto_yan_hands_on\venv\Lib\site-packages\_distutils_hack\__init__.py:33: UserWarning: Setuptools is replacing distutils.
+  warnings.warn("Setuptools is replacing distutils.")
+
+2026-04-03 00:57:13,249:INFO:Initializing predict_model()
+2026-04-03 00:57:13,249:INFO:predict_model(self=<pycaret.regression.oop.RegressionExperiment object at 0x0000025977103190>, estimator=Pipeline(memory=Memory(location=None),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['age', 'bmi', 'children'],
+                                    transformer=SimpleImputer())),
+                ('categorical_imputer',
+                 TransformerWrapper(include=['sex', 'smoker', 'region'],
+                                    transformer=SimpleImputer(strategy='most_frequent'))),
+                ('ordinal_encoding',
+                 TransformerWrapper(include=['sex', 'smoker'],
+                                    transfor...
+                ('onehot_encoding',
+                 TransformerWrapper(include=['region'],
+                                    transformer=OneHotEncoder(cols=['region'],
+                                                              handle_missing='return_nan',
+                                                              use_cat_names=True))),
+                ('polynomial_features',
+                 TransformerWrapper(transformer=PolynomialFeatures(include_bias=False))),
+                ('normalize', TransformerWrapper(transformer=StandardScaler())),
+                ('trained_model', LinearRegression(n_jobs=-1))]), probability_threshold=None, encoded_labels=False, raw_score=False, round=0, verbose=True, ml_usecase=None, preprocess=True, encode_labels=<function _SupervisedExperiment.predict_model.<locals>.encode_labels at 0x00000259770C7D80>)
+2026-04-03 00:57:13,249:INFO:Checking exceptions
+2026-04-03 00:57:13,249:INFO:Preloading libraries
+2026-04-03 00:57:13,251:INFO:Set up data.
+2026-04-03 00:57:13,273:INFO:Set up index.
