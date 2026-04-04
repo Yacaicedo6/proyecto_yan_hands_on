@@ -16,11 +16,12 @@ def home():
 @app.route('/predict',methods=['POST'])
 def predict():
     int_features = [x for x in request.form.values()]
+    int_features = [int(int_features[0]), int_features[1], float(int_features[2]), int(int_features[3]), int_features[4], int_features[5]]
     final = np.array(int_features)
     data_unseen = pd.DataFrame([final], columns = cols)
     prediction = predict_model(model, data=data_unseen, round = 0)
-    prediction = int(prediction.Label[0])
-    return render_template('home.html',pred='Expected Bill will be {}'.format(prediction))
+    pred_value = int(prediction['prediction_label'][0])
+    return render_template('home.html',pred='Expected Bill will be {}'.format(pred_value))
 
 @app.route('/predict_api',methods=['POST'])
 def predict_api():
