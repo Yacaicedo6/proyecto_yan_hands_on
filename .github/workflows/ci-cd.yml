@@ -1,35 +1,44 @@
-name: CI/CD Pipeline
+name: CI/CD - Insurance Prediction App
 
+# Controla cuándo se ejecuta el workflow:
+# se activa en cada push a la rama main
 on:
   push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
+    branches: [ "main" ]
 
+# Variables de entorno globales para el registry y la app en Azure
 env:
-  REGISTRY: practicapycaret1yan.azurecr.io
-  IMAGE_NAME: pycaret-insurance
-  WEBAPP_NAME: pycaret-insurance-yan
+  REGISTRY: practicapycaret1yan.azurecr.io   # Azure Container Registry
+  IMAGE_NAME: pycaret-insurance               # Nombre de la imagen Docker
+  WEBAPP_NAME: pycaret-insurance-yan          # Nombre de la Web App en Azure
 
+# Un workflow puede tener uno o más jobs que se ejecutan secuencialmente
 jobs:
+
+  # ─── JOB 1: Verificar la calidad del código Python ───────────────────────────
   lint:
-    name: Lint
+    name: Lint - Verificar código
+    # Se ejecuta en una máquina virtual con Ubuntu
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      # Descarga el repositorio en $GITHUB_WORKSPACE para que el job pueda acceder al código
+      - name: Descargar repositorio
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      # Configura el entorno de Python 3.11 (igual que el Dockerfile de la app)
+      - name: Configurar Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
-      - name: Install linting tools
+      # Instala flake8, herramienta de análisis estático de código Python
+      - name: Instalar flake8
         run: pip install flake8
 
-      - name: Run flake8
+      # Analiza app.py en busca de errores de estilo y sintaxis
+      - name: Analizar app.py con flake8
         run: |
           flake8 app.py \
             --max-line-length=120 \
@@ -37,28 +46,35 @@ jobs:
             --count \
             --statistics
 
+  # ─── JOB 2: Construir y publicar la imagen Docker en Azure Container Registry ─
   build:
-    name: Build & Push Docker Image
+    name: Build y Push imagen Docker
     runs-on: ubuntu-latest
+    # Solo se ejecuta si el job de lint pasó exitosamente
     needs: lint
     permissions:
       contents: read
 
     steps:
-      - name: Checkout code
+      # Descarga el repositorio (incluyendo Dockerfile, app.py, requirements.txt, etc.)
+      - name: Descargar repositorio
         uses: actions/checkout@v4
 
-      - name: Log in to Azure Container Registry
+      # Autenticación en Azure Container Registry usando usuario y password del ACR
+      - name: Login en Azure Container Registry
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-      - name: Set up Docker Buildx
+      # Configura Docker Buildx para builds optimizados con caché
+      - name: Configurar Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push Docker image
+      # Construye la imagen Docker desde el Dockerfile y la sube al ACR
+      # Solo hace push en eventos push (no en pull requests)
+      - name: Construir y subir imagen Docker al ACR
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -69,25 +85,30 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  # ─── JOB 3: Desplegar la nueva imagen en Azure App Service ───────────────────
   deploy:
-    name: Deploy to Azure App Service
+    name: Deploy en Azure App Service
     runs-on: ubuntu-latest
+    # Solo se ejecuta si el build fue exitoso y es un push a main
     needs: build
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: production
 
     steps:
-      - name: Log in to Azure
+      # Login en Azure usando el Service Principal (AZURE_CREDENTIALS)
+      - name: Login en Azure
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy image to Azure Web App
+      # Indica a la Web App que use la nueva imagen del ACR (tag latest)
+      - name: Desplegar imagen en pycaret-insurance-yan
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.WEBAPP_NAME }}
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Azure logout
+      # Cierra la sesión de Azure por seguridad
+      - name: Cerrar sesión de Azure
         run: az logout
