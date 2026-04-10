@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     # Solo se ejecuta si el build fue exitoso y es un push a main
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     environment:
       name: production
 
@@ -108,6 +108,7 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.WEBAPP_NAME }}
+          resource-group-name: pycaret-insurance-yan_group
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
       # Cierra la sesión de Azure por seguridad
