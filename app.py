@@ -1,35 +1,39 @@
 from flask import Flask,request, url_for, redirect, render_template, jsonify
-from pycaret.regression import *
+from pycaret.regression import load_model, predict_model
 import pandas as pd
 import pickle
 import numpy as np
 
 app = Flask(__name__)
 
-model = load_model('deployment_20260403_yan')
+model = load_model('deployment_20260409_v2_yan')
 cols = ['age', 'sex', 'bmi', 'children', 'smoker', 'region']
 
 @app.route('/')
 def home():
     return render_template("home.html")
 
+@app.route('/health', methods=["GET"])
+def health():
+    return "HEALTH OK"
+
 @app.route('/predict',methods=['POST'])
 def predict():
     int_features = [x for x in request.form.values()]
-    int_features = [int(int_features[0]), int_features[1], float(int_features[2]), int(int_features[3]), int_features[4], int_features[5]]
     final = np.array(int_features)
     data_unseen = pd.DataFrame([final], columns = cols)
     prediction = predict_model(model, data=data_unseen, round = 0)
-    pred_value = int(prediction['prediction_label'][0])
-    return render_template('home.html',pred='Expected Bill will be {}'.format(pred_value))
+    print(prediction)
+    prediction = int(prediction.loc[0, 'prediction_label'].item()) # type: ignore
+    return render_template('home.html',pred='Expected Bill will be ${} anually'.format(prediction))
 
 @app.route('/predict_api',methods=['POST'])
 def predict_api():
     data = request.get_json(force=True)
     data_unseen = pd.DataFrame([data])
     prediction = predict_model(model, data=data_unseen)
-    output = prediction['prediction_label'][0]
+    output = prediction.Label[0]
     return jsonify(output)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host='0.0.0.0', debug=True)
